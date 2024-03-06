@@ -71,20 +71,3 @@ N'hésitez pas à vous abonner pour être informé des nouvelles publications et
 
 À bientôt !
 
-Une fois que vous avez effectué un commit de l'ensemble des fichiers de votre projet et que vous avez poussé ces modifications vers GitHub, vous verrez plusieurs choses sous GitHub :
-
-1.  **Commit sur GitHub :** Chaque commit que vous avez effectué localement sera maintenant visible sur la page de votre dépôt GitHub. Vous pouvez voir les messages de commit, les auteurs, et les détails des modifications apportées à chaque fichier.
-
-2.  **Code source :** Tous les fichiers de votre projet, y compris ceux que vous avez ajoutés, modifiés ou supprimés, seront visibles dans l'onglet "Code" de votre dépôt GitHub. Vous pouvez parcourir les différents fichiers et dossiers de votre projet directement depuis l'interface GitHub.
-
-3.  **Historique des commits :** Vous pourrez visualiser l'historique complet des commits de votre projet sur la page "Commits" de votre dépôt GitHub. Cela vous permet de voir quand chaque modification a été apportée, qui l'a effectuée et quels fichiers ont été modifiés.
-
-4.  **Branche par défaut :** Si vous n'avez pas créé de branche spécifique et que vous avez effectué vos commits sur la branche principale (généralement nommée **`main`** ou **`master`**), vous verrez les commits sur cette branche par défaut.
-
-5.  **Possibilité de créer des issues et des pull requests :** Vous pouvez utiliser GitHub pour gérer les problèmes, discuter des fonctionnalités, et contribuer à votre projet en créant des issues et des pull requests. Ces fonctionnalités vous permettent de collaborer avec d'autres contributeurs et de suivre l'évolution de votre projet.
-
-En résumé, une fois que vous avez poussé votre code vers GitHub, vous avez créé une copie de sauvegarde de votre projet en ligne, accessible à vous-même et à d'autres personnes autorisées, avec toutes les fonctionnalités de gestion de version et de collaboration offertes par GitHub.
-
-```{r}
-library(RSQLite)
-```
