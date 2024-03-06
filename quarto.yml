@@ -1,0 +1,25 @@
+name: Build and Deploy Quarto site
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up R
+      uses: r-lib/actions/setup-r@v1
+    - name: Install dependencies
+      run: |
+        install.packages("remotes")
+        remotes::install_github("rstudio/quarto")
+    - name: Build site
+      run: quarto render --pdf --md
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
