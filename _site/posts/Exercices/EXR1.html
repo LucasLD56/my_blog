@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lucas LE DREVO">
+
+<title>my_blog - Ex1 R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">my_blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Ex1 R</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Lucas LE DREVO </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="présentation" class="level2">
+<h2 class="anchored" data-anchor-id="présentation">Présentation</h2>
+<p>Le jeu de données concerne les infrastructures olympiques et paralympiques des Jeux Olympiques 2024 à Paris.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chargement du jeu de données depuis un fichier CSV et affichage dans une vue (Visualisation)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>paris.<span class="fl">2024.</span>sites.olympiques.et.paralympiques.franciliens <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"C:/Users/lucas/Downloads/paris-2024-sites-olympiques-et-paralympiques-franciliens.csv"</span>, <span class="at">sep=</span><span class="st">";"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(paris.<span class="fl">2024.</span>sites.olympiques.et.paralympiques.franciliens)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Assignation du jeu de données à un nouvel objet nommé 'data'</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> paris.<span class="fl">2024.</span>sites.olympiques.et.paralympiques.franciliens</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Affichage du jeu de données dans une vue</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture du fichier CSV sans spécifier le nom des colonnes</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">read.table</span>(<span class="st">"C:/Users/lucas/Downloads/paris-2024-sites-olympiques-et-paralympiques-franciliens.csv"</span>, <span class="at">sep=</span><span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in scan(file = file, what = what, sep = sep, quote = quote, dec = dec,
+: Fin de fichier (EOF) dans une chaîne de caractères entre guillements</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in scan(file = file, what = what, sep = sep, quote = quote, dec = dec,
+: le nombre d'objets lus n'est pas un multiple du nombre de colonnes</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    V1
+1            geo_point
+2  48.841319, 2.253076
+3  48.924388, 2.359871
+4    48.751095, 2.0759
+5  48.788046, 2.034987
+6   48.84732, 2.245501
+7  48.911184, 2.546395
+8  48.830231, 2.289126
+9  48.856858, 2.351415
+10   48.856262, 2.2914
+11 48.866041, 2.312406
+12 48.862286, 2.313222
+13 48.937188, 2.420467
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    V2
+1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  nom
+2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Parc des Princes
+3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Stade de France
+4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Golf national
+5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Vélodrome National de Saint-Quentin-en-Yvelines
+6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Stade Roland Garros
+7                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Clichy-sous-Bois
+8                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Arena Paris Sud 4 (Porte de Versailles)
+9                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Hôtel de ville de Paris
+10 Pont dIéna;Site olympique;Cyclisme sur route,Athlétisme\n48.838649, 2.378496;Arena Bercy;Site olympique,Site paralympique;Basketball,Basket fauteuil,Gymnastique artistique,trampoline\n48.971314, 2.519183;Arena Paris nord;Site olympique,Site paralympique;Boxe,Escrime,Pentathlon moderne,Volley-ball assis\n48.829624, 2.290777;Arena Paris Sud 6 (Porte de Versailles);Site olympique,Site paralympique;Haltérophilie,Handball,Goalball\n48.865589, 2.321205;Stade de la Concorde;Site olympique;Basketball 3x3,BMX freestyle,Breaking,Skateboard\n48.930873, 2.249836;Stade Yves du Manoir;Site olympique;Hockey\n48.854536, 2.300413;Arena Champs de Mars;Site olympique,Site paralympique;Judo,Para judo,Lutte,Rugby fauteuil\n48.89566, 2.22971;La Défense Arena;Site olympique,Site paralympique;Natation,Para natation,Water-polo\n48.862229, 2.636374;Stade nautique;Site olympique,Site paralympique;Canoë,Para canoë,Aviron,Para aviron\n48.832068, 2.284126;Arena Paris Sud 1 (Porte de Versailles);Site olympique,Site paralympique;Volleyball,Boccia\n48.857232, 2.296084;Stade Tour Eiffel;Site olympique,Site paralympique;Volleyball de plage,Cécifoot\n48.787261, 2.034736;Stade BMX de Saint-Quentin-en-Yvelines;Site olympique;BMX race\n48.899483, 2.361803;Arena La Chapelle;Site olympique,Site paralympique;Badminton,Para Badminton,Gymnastique rythmique,Para powerlifting\n48.835157, 2.257363;Stade Pierre de Coubertin;Site paralympique;Goalball\n48.923457, 2.355527;Centre aquatique;Site olympique;Natation artistique,Plongeon,Water-polo\n48.92467, 2.332428;Village olympique;;\n48.815115, 2.08208;Château de Versailles;Site olympique,Site paralympique;Sports équestres,Para équitation,Pentathlon moderne\n48.944207, 2.424716;Village des médias;;\n48.944643, 2.408258;Terrain des Essences - La Courneuve;Site paralympique;Para athlétisme\n48.788162, 1.967776;Colline dElancourt
+11                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Grand Palais
+12                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Invalides
+13                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Site descalade du Bourget;Site olympique;Escalade sportive\n
+                                 V3
+1    sites_olympiques_paralympiques
+2                    Site olympique
+3  Site olympique,Site paralympique
+4                    Site olympique
+5  Site olympique,Site paralympique
+6  Site olympique,Site paralympique
+7                 Site paralympique
+8  Site olympique,Site paralympique
+9                    Site olympique
+10                   Site olympique
+11 Site olympique,Site paralympique
+12 Site olympique,Site paralympique
+13                                 
+                                                         V4
+1                                                    sports
+2                                                  Football
+3                          Athlétisme,Para athlétisme,Rugby
+4                                                      Golf
+5                Cyclisme sur piste,Para cyclisme sur piste
+6                               Tennis,Tennis fauteuil,Boxe
+7                                   Para cyclisme sur route
+8                      Tennis de table,Para tennis de table
+9                                                Athlétisme
+10                                                      VTT
+11        Escrime,Escrime fauteuil,Taekwondo,Para taekwondo
+12 Tir à larc,Para tir à larc,Athlétisme,Cyclisme sur route
+13                                                         </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture du fichier CSV en spécifiant le nom des colonnes, en désactivant les guillemets comme caractères de délimitation et en remplissant les valeurs manquantes</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"C:/Users/lucas/Downloads/paris-2024-sites-olympiques-et-paralympiques-franciliens.csv"</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep=</span><span class="st">";"</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">quote=</span><span class="st">""</span>, <span class="at">fill=</span><span class="cn">TRUE</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Affichage de la structure du jeu de données</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   31 obs. of  4 variables:
+ $ geo_point                     : chr  "48.841319, 2.253076" "48.924388, 2.359871" "48.751095, 2.0759" "48.788046, 2.034987" ...
+ $ nom                           : chr  "Parc des Princes" "Stade de France" "Golf national" "Vélodrome National de Saint-Quentin-en-Yvelines" ...
+ $ sites_olympiques_paralympiques: chr  "Site olympique" "Site olympique,Site paralympique" "Site olympique" "Site olympique,Site paralympique" ...
+ $ sports                        : chr  "Football" "Athlétisme,Para athlétisme,Rugby" "Golf" "Cyclisme sur piste,Para cyclisme sur piste" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Affichage du nombre de lignes dans le jeu de données</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 31</code></pre>
+</div>
+</div>
+<ol type="1">
+<li><p>Les noms et la nature des colonnes :</p>
+<ul>
+<li><p>Colonnes :</p>
+<ul>
+<li><p><strong><code>geo_point</code></strong> : Il s’agit d’une coordonnée géographique représentant la latitude et la longitude de l’infrastructure.</p></li>
+<li><p><strong><code>nom</code></strong> : Il représente le nom de l’infrastructure.</p></li>
+<li><p><strong><code>sites_olympiques_paralympiques</code></strong> : Cette colonne indique le type de site, si c’est un site olympique, paralympique ou les deux.</p></li>
+<li><p><strong><code>sports</code></strong> : Cette colonne répertorie les sports pratiqués dans l’infrastructure.</p></li>
+</ul></li>
+</ul></li>
+<li><p>Nombre de lignes dans le data.frame : Il contient 31 lignes, ce qui signifie qu’il répertorie 31 infrastructures olympiques et paralympiques.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nb_sites_olympiques <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"Site olympique"</span>, data<span class="sc">$</span>sites_olympiques_paralympiques))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>nb_sites_olympiques</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 26</code></pre>
+</div>
+</div>
+<p>Il y a 26 sites olympiques dans le jeu de données.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nb_sites_paralympiques <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"Site paralympique"</span>, data<span class="sc">$</span>sites_olympiques_paralympiques))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>nb_sites_paralympiques</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19</code></pre>
+</div>
+</div>
+<p>Il y a 19 sites paralympiques dans le jeu de données.</p>
+<p><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sites_multisports <span class="ot">&lt;-</span> data[<span class="fu">grepl</span>(<span class="st">","</span>, data<span class="sc">$</span>sports), ]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sites_multisports</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             geo_point                                             nom
+2  48.924388, 2.359871                                 Stade de France
+4  48.788046, 2.034987 Vélodrome National de Saint-Quentin-en-Yvelines
+5   48.84732, 2.245501                             Stade Roland Garros
+7  48.830231, 2.289126         Arena Paris Sud 4 (Porte de Versailles)
+9    48.856262, 2.2914                                     Pont d'Iéna
+10 48.838649, 2.378496                                     Arena Bercy
+11 48.971314, 2.519183                                Arena Paris nord
+12 48.829624, 2.290777         Arena Paris Sud 6 (Porte de Versailles)
+13 48.865589, 2.321205                            Stade de la Concorde
+15 48.854536, 2.300413                            Arena Champs de Mars
+16   48.89566, 2.22971                                La Défense Arena
+17 48.862229, 2.636374                                  Stade nautique
+18 48.832068, 2.284126         Arena Paris Sud 1 (Porte de Versailles)
+19 48.857232, 2.296084                               Stade Tour Eiffel
+21 48.899483, 2.361803                               Arena La Chapelle
+23 48.923457, 2.355527                                Centre aquatique
+25  48.815115, 2.08208                           Château de Versailles
+29 48.866041, 2.312406                                    Grand Palais
+30 48.862286, 2.313222                                       Invalides
+     sites_olympiques_paralympiques
+2  Site olympique,Site paralympique
+4  Site olympique,Site paralympique
+5  Site olympique,Site paralympique
+7  Site olympique,Site paralympique
+9                    Site olympique
+10 Site olympique,Site paralympique
+11 Site olympique,Site paralympique
+12 Site olympique,Site paralympique
+13                   Site olympique
+15 Site olympique,Site paralympique
+16 Site olympique,Site paralympique
+17 Site olympique,Site paralympique
+18 Site olympique,Site paralympique
+19 Site olympique,Site paralympique
+21 Site olympique,Site paralympique
+23                   Site olympique
+25 Site olympique,Site paralympique
+29 Site olympique,Site paralympique
+30 Site olympique,Site paralympique
+                                                             sports
+2                                  Athlétisme,Para athlétisme,Rugby
+4                        Cyclisme sur piste,Para cyclisme sur piste
+5                                       Tennis,Tennis fauteuil,Boxe
+7                              Tennis de table,Para tennis de table
+9                                     Cyclisme sur route,Athlétisme
+10     Basketball,Basket fauteuil,Gymnastique artistique,trampoline
+11                Boxe,Escrime,Pentathlon moderne,Volley-ball assis
+12                                  Haltérophilie,Handball,Goalball
+13                 Basketball 3x3,BMX freestyle,Breaking,Skateboard
+15                              Judo,Para judo,Lutte,Rugby fauteuil
+16                                Natation,Para natation,Water-polo
+17                              Canoë,Para canoë,Aviron,Para aviron
+18                                                Volleyball,Boccia
+19                                     Volleyball de plage,Cécifoot
+21 Badminton,Para Badminton,Gymnastique rythmique,Para powerlifting
+23                          Natation artistique,Plongeon,Water-polo
+25              Sports équestres,Para équitation,Pentathlon moderne
+29                Escrime,Escrime fauteuil,Taekwondo,Para taekwondo
+30       Tir à l'arc,Para tir à l'arc,Athlétisme,Cyclisme sur route</code></pre>
+</div>
+</div>
+<p>Les sites qui accueillent plusieurs disciplines sportives sont les suivants :</p>
+<ol type="1">
+<li><p>Stade de France</p></li>
+<li><p>Vélodrome National de Saint-Quentin-en-Yvelines</p></li>
+<li><p>Stade Roland Garros</p></li>
+<li><p>Arena Paris Sud 4 (Porte de Versailles)</p></li>
+<li><p>Arena Bercy</p></li>
+<li><p>Arena Paris nord</p></li>
+<li><p>Arena Paris Sud 6 (Porte de Versailles)</p></li>
+<li><p>Arena Champs de Mars</p></li>
+<li><p>La Défense Arena</p></li>
+<li><p>Stade nautique</p></li>
+<li><p>Arena Paris Sud 1 (Porte de Versailles)</p></li>
+<li><p>Stade Tour Eiffel</p></li>
+<li><p>Arena La Chapelle</p></li>
+<li><p>Grand Palais</p></li>
+<li><p>Invalides</p></li>
+</ol>
+<p>Ces sites accueillent une variété de disciplines sportives telles que l’athlétisme, le rugby, le tennis, la boxe, le tennis de table, le cyclisme, le basketball, la gymnastique, l’haltérophilie, le handball, le judo, la natation, le water-polo, le canoë, l’aviron, le volleyball, le badminton, le tir à l’arc, l’escrime, le taekwondo, le plongeon, les sports équestres, et bien d’autres encore.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer les lignes où le site est paralympique</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sites_paralympiques <span class="ot">&lt;-</span> data[<span class="fu">grepl</span>(<span class="st">"Site paralympique"</span>, data<span class="sc">$</span>sites_olympiques_paralympiques), ]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher la liste des disciplines paralympiques pour chaque site</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(sites_paralympiques)) {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">"Site:"</span>, sites_paralympiques<span class="sc">$</span>nom[i], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">"Disciplines paralympiques:"</span>, sites_paralympiques<span class="sc">$</span>sports[i], <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Site: Stade de France 
+Disciplines paralympiques: Athlétisme,Para athlétisme,Rugby 
+
+Site: Vélodrome National de Saint-Quentin-en-Yvelines 
+Disciplines paralympiques: Cyclisme sur piste,Para cyclisme sur piste 
+
+Site: Stade Roland Garros 
+Disciplines paralympiques: Tennis,Tennis fauteuil,Boxe 
+
+Site: Clichy-sous-Bois 
+Disciplines paralympiques: Para cyclisme sur route 
+
+Site: Arena Paris Sud 4 (Porte de Versailles) 
+Disciplines paralympiques: Tennis de table,Para tennis de table 
+
+Site: Arena Bercy 
+Disciplines paralympiques: Basketball,Basket fauteuil,Gymnastique artistique,trampoline 
+
+Site: Arena Paris nord 
+Disciplines paralympiques: Boxe,Escrime,Pentathlon moderne,Volley-ball assis 
+
+Site: Arena Paris Sud 6 (Porte de Versailles) 
+Disciplines paralympiques: Haltérophilie,Handball,Goalball 
+
+Site: Arena Champs de Mars 
+Disciplines paralympiques: Judo,Para judo,Lutte,Rugby fauteuil 
+
+Site: La Défense Arena 
+Disciplines paralympiques: Natation,Para natation,Water-polo 
+
+Site: Stade nautique 
+Disciplines paralympiques: Canoë,Para canoë,Aviron,Para aviron 
+
+Site: Arena Paris Sud 1 (Porte de Versailles) 
+Disciplines paralympiques: Volleyball,Boccia 
+
+Site: Stade Tour Eiffel 
+Disciplines paralympiques: Volleyball de plage,Cécifoot 
+
+Site: Arena La Chapelle 
+Disciplines paralympiques: Badminton,Para Badminton,Gymnastique rythmique,Para powerlifting 
+
+Site: Stade Pierre de Coubertin 
+Disciplines paralympiques: Goalball 
+
+Site: Château de Versailles 
+Disciplines paralympiques: Sports équestres,Para équitation,Pentathlon moderne 
+
+Site: Terrain des Essences - La Courneuve 
+Disciplines paralympiques: Para athlétisme 
+
+Site: Grand Palais 
+Disciplines paralympiques: Escrime,Escrime fauteuil,Taekwondo,Para taekwondo 
+
+Site: Invalides 
+Disciplines paralympiques: Tir à l'arc,Para tir à l'arc,Athlétisme,Cyclisme sur route </code></pre>
+</div>
+</div>
+<p>Voici les disciplines paralympiques accueillies dans les sites franciliens :</p>
+<ol type="1">
+<li><p><strong>Stade de France</strong> : Athlétisme, Para athlétisme, Rugby</p></li>
+<li><p><strong>Vélodrome National de Saint-Quentin-en-Yvelines</strong> : Cyclisme sur piste, Para cyclisme sur piste</p></li>
+<li><p><strong>Stade Roland Garros</strong> : Tennis, Tennis fauteuil, Boxe</p></li>
+<li><p><strong>Clichy-sous-Bois</strong> : Para cyclisme sur route</p></li>
+<li><p><strong>Arena Paris Sud 4 (Porte de Versailles)</strong> : Tennis de table, Para tennis de table</p></li>
+<li><p><strong>Arena Bercy</strong> : Basketball, Basket fauteuil, Gymnastique artistique, Trampoline</p></li>
+<li><p><strong>Arena Paris nord</strong> : Boxe, Escrime, Pentathlon moderne, Volley-ball assis</p></li>
+<li><p><strong>Arena Paris Sud 6 (Porte de Versailles)</strong> : Haltérophilie, Handball, Goalball</p></li>
+<li><p><strong>Arena Champs de Mars</strong> : Judo, Para judo, Lutte, Rugby fauteuil</p></li>
+<li><p><strong>La Défense Arena</strong> : Natation, Para natation, Water-polo</p></li>
+<li><p><strong>Stade nautique</strong> : Canoë, Para canoë, Aviron, Para aviron</p></li>
+<li><p><strong>Arena Paris Sud 1 (Porte de Versailles)</strong> : Volleyball, Boccia</p></li>
+<li><p><strong>Stade Tour Eiffel</strong> : Volleyball de plage, Cécifoot</p></li>
+<li><p><strong>Arena La Chapelle</strong> : Badminton, Para Badminton, Gymnastique rythmique, Para powerlifting</p></li>
+<li><p><strong>Stade Pierre de Coubertin</strong> : Goalball</p></li>
+<li><p><strong>Château de Versailles</strong> : Sports équestres, Para équitation, Pentathlon moderne</p></li>
+<li><p><strong>Terrain des Essences - La Courneuve</strong> : Para athlétisme</p></li>
+<li><p><strong>Grand Palais</strong> : Escrime, Escrime fauteuil, Taekwondo, Para taekwondo</p></li>
+<li><p><strong>Invalides</strong> : Tir à l’arc, Para tir à l’arc, Athlétisme, Cyclisme sur route</p></li>
+</ol>
+<p>Ces sites offrent une grande variété de sports paralympiques, allant de l’athlétisme au basketball en passant par le tennis et le judo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compter le nombre unique de disciplines pour chaque site</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>site_disciplines_count <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">strsplit</span>(data<span class="sc">$</span>sports, <span class="st">","</span>), <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unique</span>(x)))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Trouver le(s) site(s) avec le maximum de disciplines</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>max_disciplines_sites <span class="ot">&lt;-</span> data[site_disciplines_count <span class="sc">==</span> <span class="fu">max</span>(site_disciplines_count), ]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>max_disciplines_sites</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             geo_point                  nom   sites_olympiques_paralympiques
+10 48.838649, 2.378496          Arena Bercy Site olympique,Site paralympique
+11 48.971314, 2.519183     Arena Paris nord Site olympique,Site paralympique
+13 48.865589, 2.321205 Stade de la Concorde                   Site olympique
+15 48.854536, 2.300413 Arena Champs de Mars Site olympique,Site paralympique
+17 48.862229, 2.636374       Stade nautique Site olympique,Site paralympique
+21 48.899483, 2.361803    Arena La Chapelle Site olympique,Site paralympique
+29 48.866041, 2.312406         Grand Palais Site olympique,Site paralympique
+30 48.862286, 2.313222            Invalides Site olympique,Site paralympique
+                                                             sports
+10     Basketball,Basket fauteuil,Gymnastique artistique,trampoline
+11                Boxe,Escrime,Pentathlon moderne,Volley-ball assis
+13                 Basketball 3x3,BMX freestyle,Breaking,Skateboard
+15                              Judo,Para judo,Lutte,Rugby fauteuil
+17                              Canoë,Para canoë,Aviron,Para aviron
+21 Badminton,Para Badminton,Gymnastique rythmique,Para powerlifting
+29                Escrime,Escrime fauteuil,Taekwondo,Para taekwondo
+30       Tir à l'arc,Para tir à l'arc,Athlétisme,Cyclisme sur route</code></pre>
+</div>
+</div>
+<p>Les sites qui accueillent le plus grand nombre de disciplines différentes sont :</p>
+<ol type="1">
+<li><p><strong>Arena Bercy</strong></p></li>
+<li><p><strong>Arena Paris nord</strong></p></li>
+<li><p><strong>Stade de la Concorde</strong></p></li>
+<li><p><strong>Arena Champs de Mars</strong></p></li>
+<li><p><strong>Stade nautique</strong></p></li>
+<li><p><strong>Arena La Chapelle</strong></p></li>
+<li><p><strong>Grand Palais</strong></p></li>
+<li><p><strong>Invalides</strong></p></li>
+</ol>
+<p>Ces sites proposent une variété de disciplines allant du basketball à l’athlétisme en passant par l’escrime et le tir à l’arc.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diviser les disciplines et compter leur fréquence</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sports_list <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">strsplit</span>(data<span class="sc">$</span>sports, <span class="st">","</span>))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sports_count <span class="ot">&lt;-</span> <span class="fu">table</span>(sports_list)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Trouver la discipline avec le plus grand nombre de sites</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>max_sports <span class="ot">&lt;-</span> <span class="fu">names</span>(sports_count[sports_count <span class="sc">==</span> <span class="fu">max</span>(sports_count)])</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher la discipline avec le plus grand nombre de sites</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"La discipline avec le plus grand nombre de sites est:"</span>, max_sports, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>La discipline avec le plus grand nombre de sites est: Athlétisme </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trouver les sites associés à cette discipline</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sites_max_sports <span class="ot">&lt;-</span> data[<span class="fu">sapply</span>(<span class="fu">strsplit</span>(data<span class="sc">$</span>sports, <span class="st">","</span>), <span class="cf">function</span>(x) <span class="fu">any</span>(x <span class="sc">%in%</span> max_sports)), ]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>sites_max_sports</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             geo_point                     nom   sites_olympiques_paralympiques
+2  48.924388, 2.359871         Stade de France Site olympique,Site paralympique
+8  48.856858, 2.351415 Hôtel de ville de Paris                   Site olympique
+9    48.856262, 2.2914             Pont d'Iéna                   Site olympique
+30 48.862286, 2.313222               Invalides Site olympique,Site paralympique
+                                                       sports
+2                            Athlétisme,Para athlétisme,Rugby
+8                                                  Athlétisme
+9                               Cyclisme sur route,Athlétisme
+30 Tir à l'arc,Para tir à l'arc,Athlétisme,Cyclisme sur route</code></pre>
+</div>
+</div>
+<p><br>
+La discipline avec le plus grand nombre de sites est l’Athlétisme. Cette discipline aura lieu dans les sites suivants :</p>
+<ol type="1">
+<li><p><strong>Stade de France</strong> - Site olympique, Site paralympique</p></li>
+<li><p><strong>Hôtel de ville de Paris</strong> - Site olympique</p></li>
+<li><p><strong>Pont d’Iéna</strong> - Site olympique</p></li>
+<li><p><strong>Invalides</strong> - Site olympique, Site paralympique</p></li>
+</ol>
+<p>Cela montre que l’athlétisme est largement répandu parmi les sites des Jeux Olympiques de 2024 à Paris.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Séparer les coordonnées géographiques en latitude et longitude</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>coordinates <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(data<span class="sc">$</span>geo_point, <span class="st">", "</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>latitude <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">sapply</span>(coordinates, <span class="st">`</span><span class="at">[</span><span class="st">`</span>, <span class="dv">1</span>))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>longitude <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">sapply</span>(coordinates, <span class="st">`</span><span class="at">[</span><span class="st">`</span>, <span class="dv">2</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer la matrice de distance</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>distance_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(<span class="fu">cbind</span>(latitude, longitude), <span class="at">diag =</span> <span class="cn">TRUE</span>, <span class="at">upper =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Remplacer les valeurs diagonales par NA pour éviter de sélectionner les mêmes sites</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(distance_matrix) <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Trouver l'indice du minimum</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>min_index <span class="ot">&lt;-</span> <span class="fu">which</span>(distance_matrix <span class="sc">==</span> <span class="fu">min</span>(distance_matrix, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Vérifier s'il y a des valeurs dans min_index</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(min_index) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Trouver les noms des sites les plus proches</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  site1 <span class="ot">&lt;-</span> <span class="fu">rownames</span>(distance_matrix)[min_index[<span class="dv">1</span>, <span class="dv">1</span>]]</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  site2 <span class="ot">&lt;-</span> <span class="fu">rownames</span>(distance_matrix)[min_index[<span class="dv">1</span>, <span class="dv">2</span>]]</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Afficher les résultats</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Les deux sites les plus proches à vol d'oiseau sont:"</span>, site1, <span class="st">"et"</span>, site2, <span class="st">".</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Il n'y a pas de données disponibles pour trouver les sites les plus proches.</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Les deux sites les plus proches à vol d'oiseau sont: 20 et 4 .</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trouver les noms des sites les plus proches</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>nom_site1 <span class="ot">&lt;-</span> data[min_index[<span class="dv">1</span>, <span class="dv">1</span>], <span class="st">"nom"</span>]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>nom_site2 <span class="ot">&lt;-</span> data[min_index[<span class="dv">1</span>, <span class="dv">2</span>], <span class="st">"nom"</span>]</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Les noms des deux sites les plus proches à vol d'oiseau sont:"</span>, nom_site1, <span class="st">"et"</span>, nom_site2, <span class="st">".</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Les noms des deux sites les plus proches à vol d'oiseau sont: Stade BMX de Saint-Quentin-en-Yvelines et Vélodrome National de Saint-Quentin-en-Yvelines .</code></pre>
+</div>
+</div>
+<p>Les deux sites les plus proches à vol d’oiseau sont le Stade BMX de Saint-Quentin-en-Yvelines et le Vélodrome National de Saint-Quentin-en-Yvelines.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trouver l'indice du maximum</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>max_index <span class="ot">&lt;-</span> <span class="fu">which</span>(distance_matrix <span class="sc">==</span> <span class="fu">max</span>(distance_matrix, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Vérifier s'il y a des valeurs dans max_index</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(max_index) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Trouver les noms des sites les plus éloignés</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  site1_max <span class="ot">&lt;-</span> <span class="fu">rownames</span>(distance_matrix)[max_index[<span class="dv">1</span>, <span class="dv">1</span>]]</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  site2_max <span class="ot">&lt;-</span> <span class="fu">rownames</span>(distance_matrix)[max_index[<span class="dv">1</span>, <span class="dv">2</span>]]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Afficher les résultats</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Les deux sites les plus éloignés à vol d'oiseau sont:"</span>, site1_max, <span class="st">"et"</span>, site2_max, <span class="st">".</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Il n'y a pas de données disponibles pour trouver les sites les plus éloignés.</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Les deux sites les plus éloignés à vol d'oiseau sont: 28 et 17 .</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trouver les noms des sites les plus éloignés</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>nom_site1_max <span class="ot">&lt;-</span> data[site1_max, <span class="st">"nom"</span>]</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>nom_site2_max <span class="ot">&lt;-</span> data[site2_max, <span class="st">"nom"</span>]</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Les noms des deux sites les plus éloignés à vol d'oiseau sont:"</span>, nom_site1_max, <span class="st">"et"</span>, nom_site2_max, <span class="st">".</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Les noms des deux sites les plus éloignés à vol d'oiseau sont: Colline d'Elancourt et Stade nautique .</code></pre>
+</div>
+</div>
+<p>Les deux sites les plus éloignés à vol d’oiseau sont la Colline d’Elancourt et le Stade nautique.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diviser la colonne geo_point en deux colonnes distinctes pour la latitude et la longitude</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">transform</span>(data, <span class="at">latitude =</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">",.*"</span>, <span class="st">""</span>, geo_point)),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">longitude =</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">".*,"</span>, <span class="st">""</span>, geo_point)))</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer la moyenne des latitudes et des longitudes</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>mean_latitude <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>latitude, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>mean_longitude <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>longitude, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les coordonnées du barycentre</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Le barycentre des sites olympiques se situe à la latitude:"</span>, mean_latitude, <span class="st">"et à la longitude:"</span>, mean_longitude, <span class="st">".</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Le barycentre des sites olympiques se situe à la latitude: 48.86684 et à la longitude: 2.29757 .</code></pre>
+</div>
+</div>
+<p>Le barycentre des sites olympiques se situe à une latitude d’environ 48.866684 et une longitude d’environ 2.29757. Cela nous permet de déterminer l’emplacement idéal pour notre appartement d’investissement.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

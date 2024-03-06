@@ -1,0 +1,320 @@
+---
+title: "Ex1 R"
+author: "Lucas LE DREVO"
+format: html
+editor: visual
+---
+
+## Présentation
+
+Le jeu de données concerne les infrastructures olympiques et paralympiques des Jeux Olympiques 2024 à Paris.
+
+```{r}
+# Chargement du jeu de données depuis un fichier CSV et affichage dans une vue (Visualisation)
+paris.2024.sites.olympiques.et.paralympiques.franciliens <- read.csv("C:/Users/lucas/Downloads/paris-2024-sites-olympiques-et-paralympiques-franciliens.csv", sep=";")
+View(paris.2024.sites.olympiques.et.paralympiques.franciliens)
+
+# Assignation du jeu de données à un nouvel objet nommé 'data'
+data = paris.2024.sites.olympiques.et.paralympiques.franciliens
+
+# Affichage du jeu de données dans une vue
+View(data)
+
+# Lecture du fichier CSV sans spécifier le nom des colonnes
+read.table("C:/Users/lucas/Downloads/paris-2024-sites-olympiques-et-paralympiques-franciliens.csv", sep=";")
+
+# Lecture du fichier CSV en spécifiant le nom des colonnes, en désactivant les guillemets comme caractères de délimitation et en remplissant les valeurs manquantes
+data <- read.table("C:/Users/lucas/Downloads/paris-2024-sites-olympiques-et-paralympiques-franciliens.csv", 
+                   sep=";", header=TRUE, quote="", fill=TRUE)
+
+# Affichage de la structure du jeu de données
+str(data)
+
+# Affichage du nombre de lignes dans le jeu de données
+nrow(data)
+
+
+```
+
+1.  Les noms et la nature des colonnes :
+
+    -   Colonnes :
+
+        -   **`geo_point`** : Il s'agit d'une coordonnée géographique représentant la latitude et la longitude de l'infrastructure.
+
+        -   **`nom`** : Il représente le nom de l'infrastructure.
+
+        -   **`sites_olympiques_paralympiques`** : Cette colonne indique le type de site, si c'est un site olympique, paralympique ou les deux.
+
+        -   **`sports`** : Cette colonne répertorie les sports pratiqués dans l'infrastructure.
+
+2.  Nombre de lignes dans le data.frame : Il contient 31 lignes, ce qui signifie qu'il répertorie 31 infrastructures olympiques et paralympiques.
+
+```{r}
+nb_sites_olympiques <- sum(grepl("Site olympique", data$sites_olympiques_paralympiques))
+nb_sites_olympiques
+```
+
+Il y a 26 sites olympiques dans le jeu de données.
+
+```{r}
+nb_sites_paralympiques <- sum(grepl("Site paralympique", data$sites_olympiques_paralympiques))
+nb_sites_paralympiques
+```
+
+Il y a 19 sites paralympiques dans le jeu de données.
+
+\
+
+```{r}
+sites_multisports <- data[grepl(",", data$sports), ]
+sites_multisports
+```
+
+Les sites qui accueillent plusieurs disciplines sportives sont les suivants :
+
+1.  Stade de France
+
+2.  Vélodrome National de Saint-Quentin-en-Yvelines
+
+3.  Stade Roland Garros
+
+4.  Arena Paris Sud 4 (Porte de Versailles)
+
+5.  Arena Bercy
+
+6.  Arena Paris nord
+
+7.  Arena Paris Sud 6 (Porte de Versailles)
+
+8.  Arena Champs de Mars
+
+9.  La Défense Arena
+
+10. Stade nautique
+
+11. Arena Paris Sud 1 (Porte de Versailles)
+
+12. Stade Tour Eiffel
+
+13. Arena La Chapelle
+
+14. Grand Palais
+
+15. Invalides
+
+Ces sites accueillent une variété de disciplines sportives telles que l'athlétisme, le rugby, le tennis, la boxe, le tennis de table, le cyclisme, le basketball, la gymnastique, l'haltérophilie, le handball, le judo, la natation, le water-polo, le canoë, l'aviron, le volleyball, le badminton, le tir à l'arc, l'escrime, le taekwondo, le plongeon, les sports équestres, et bien d'autres encore.
+
+```{r}
+# Filtrer les lignes où le site est paralympique
+sites_paralympiques <- data[grepl("Site paralympique", data$sites_olympiques_paralympiques), ]
+
+# Afficher la liste des disciplines paralympiques pour chaque site
+for (i in 1:nrow(sites_paralympiques)) {
+  cat(paste("Site:", sites_paralympiques$nom[i], "\n"))
+  cat(paste("Disciplines paralympiques:", sites_paralympiques$sports[i], "\n\n"))
+}
+
+
+```
+
+Voici les disciplines paralympiques accueillies dans les sites franciliens :
+
+1.  **Stade de France** : Athlétisme, Para athlétisme, Rugby
+
+2.  **Vélodrome National de Saint-Quentin-en-Yvelines** : Cyclisme sur piste, Para cyclisme sur piste
+
+3.  **Stade Roland Garros** : Tennis, Tennis fauteuil, Boxe
+
+4.  **Clichy-sous-Bois** : Para cyclisme sur route
+
+5.  **Arena Paris Sud 4 (Porte de Versailles)** : Tennis de table, Para tennis de table
+
+6.  **Arena Bercy** : Basketball, Basket fauteuil, Gymnastique artistique, Trampoline
+
+7.  **Arena Paris nord** : Boxe, Escrime, Pentathlon moderne, Volley-ball assis
+
+8.  **Arena Paris Sud 6 (Porte de Versailles)** : Haltérophilie, Handball, Goalball
+
+9.  **Arena Champs de Mars** : Judo, Para judo, Lutte, Rugby fauteuil
+
+10. **La Défense Arena** : Natation, Para natation, Water-polo
+
+11. **Stade nautique** : Canoë, Para canoë, Aviron, Para aviron
+
+12. **Arena Paris Sud 1 (Porte de Versailles)** : Volleyball, Boccia
+
+13. **Stade Tour Eiffel** : Volleyball de plage, Cécifoot
+
+14. **Arena La Chapelle** : Badminton, Para Badminton, Gymnastique rythmique, Para powerlifting
+
+15. **Stade Pierre de Coubertin** : Goalball
+
+16. **Château de Versailles** : Sports équestres, Para équitation, Pentathlon moderne
+
+17. **Terrain des Essences - La Courneuve** : Para athlétisme
+
+18. **Grand Palais** : Escrime, Escrime fauteuil, Taekwondo, Para taekwondo
+
+19. **Invalides** : Tir à l'arc, Para tir à l'arc, Athlétisme, Cyclisme sur route
+
+Ces sites offrent une grande variété de sports paralympiques, allant de l'athlétisme au basketball en passant par le tennis et le judo.
+
+```{r}
+# Compter le nombre unique de disciplines pour chaque site
+site_disciplines_count <- sapply(strsplit(data$sports, ","), function(x) length(unique(x)))
+
+# Trouver le(s) site(s) avec le maximum de disciplines
+max_disciplines_sites <- data[site_disciplines_count == max(site_disciplines_count), ]
+
+# Afficher les résultats
+max_disciplines_sites
+```
+
+Les sites qui accueillent le plus grand nombre de disciplines différentes sont :
+
+1.  **Arena Bercy**
+
+2.  **Arena Paris nord**
+
+3.  **Stade de la Concorde**
+
+4.  **Arena Champs de Mars**
+
+5.  **Stade nautique**
+
+6.  **Arena La Chapelle**
+
+7.  **Grand Palais**
+
+8.  **Invalides**
+
+Ces sites proposent une variété de disciplines allant du basketball à l'athlétisme en passant par l'escrime et le tir à l'arc.
+
+```{r}
+# Diviser les disciplines et compter leur fréquence
+sports_list <- unlist(strsplit(data$sports, ","))
+sports_count <- table(sports_list)
+
+# Trouver la discipline avec le plus grand nombre de sites
+max_sports <- names(sports_count[sports_count == max(sports_count)])
+
+# Afficher la discipline avec le plus grand nombre de sites
+cat("La discipline avec le plus grand nombre de sites est:", max_sports, "\n\n")
+
+# Trouver les sites associés à cette discipline
+sites_max_sports <- data[sapply(strsplit(data$sports, ","), function(x) any(x %in% max_sports)), ]
+
+# Afficher les résultats
+sites_max_sports
+
+
+```
+
+\
+La discipline avec le plus grand nombre de sites est l'Athlétisme. Cette discipline aura lieu dans les sites suivants :
+
+1.  **Stade de France** - Site olympique, Site paralympique
+
+2.  **Hôtel de ville de Paris** - Site olympique
+
+3.  **Pont d'Iéna** - Site olympique
+
+4.  **Invalides** - Site olympique, Site paralympique
+
+Cela montre que l'athlétisme est largement répandu parmi les sites des Jeux Olympiques de 2024 à Paris.
+
+```{r}
+
+
+
+
+
+# Séparer les coordonnées géographiques en latitude et longitude
+coordinates <- strsplit(data$geo_point, ", ")
+latitude <- as.numeric(sapply(coordinates, `[`, 1))
+longitude <- as.numeric(sapply(coordinates, `[`, 2))
+
+# Créer la matrice de distance
+distance_matrix <- as.matrix(dist(cbind(latitude, longitude), diag = TRUE, upper = TRUE))
+
+# Remplacer les valeurs diagonales par NA pour éviter de sélectionner les mêmes sites
+diag(distance_matrix) <- NA
+
+# Trouver l'indice du minimum
+min_index <- which(distance_matrix == min(distance_matrix, na.rm = TRUE), arr.ind = TRUE)
+
+# Vérifier s'il y a des valeurs dans min_index
+if (nrow(min_index) > 0) {
+  # Trouver les noms des sites les plus proches
+  site1 <- rownames(distance_matrix)[min_index[1, 1]]
+  site2 <- rownames(distance_matrix)[min_index[1, 2]]
+  
+  # Afficher les résultats
+  cat("Les deux sites les plus proches à vol d'oiseau sont:", site1, "et", site2, ".\n")
+} else {
+  cat("Il n'y a pas de données disponibles pour trouver les sites les plus proches.\n")
+}
+
+
+# Trouver les noms des sites les plus proches
+nom_site1 <- data[min_index[1, 1], "nom"]
+nom_site2 <- data[min_index[1, 2], "nom"]
+
+# Afficher les résultats
+cat("Les noms des deux sites les plus proches à vol d'oiseau sont:", nom_site1, "et", nom_site2, ".\n")
+
+```
+
+Les deux sites les plus proches à vol d'oiseau sont le Stade BMX de Saint-Quentin-en-Yvelines et le Vélodrome National de Saint-Quentin-en-Yvelines.
+
+```{r}
+
+
+
+# Trouver l'indice du maximum
+max_index <- which(distance_matrix == max(distance_matrix, na.rm = TRUE), arr.ind = TRUE)
+
+# Vérifier s'il y a des valeurs dans max_index
+if (nrow(max_index) > 0) {
+  # Trouver les noms des sites les plus éloignés
+  site1_max <- rownames(distance_matrix)[max_index[1, 1]]
+  site2_max <- rownames(distance_matrix)[max_index[1, 2]]
+  
+  # Afficher les résultats
+  cat("Les deux sites les plus éloignés à vol d'oiseau sont:", site1_max, "et", site2_max, ".\n")
+} else {
+  cat("Il n'y a pas de données disponibles pour trouver les sites les plus éloignés.\n")
+}
+
+
+
+# Trouver les noms des sites les plus éloignés
+nom_site1_max <- data[site1_max, "nom"]
+nom_site2_max <- data[site2_max, "nom"]
+
+# Afficher les résultats
+cat("Les noms des deux sites les plus éloignés à vol d'oiseau sont:", nom_site1_max, "et", nom_site2_max, ".\n")
+
+```
+
+Les deux sites les plus éloignés à vol d'oiseau sont la Colline d'Elancourt et le Stade nautique.
+
+```{r}
+
+
+
+# Diviser la colonne geo_point en deux colonnes distinctes pour la latitude et la longitude
+data <- transform(data, latitude = as.numeric(sub(",.*", "", geo_point)),
+                  longitude = as.numeric(sub(".*,", "", geo_point)))
+
+# Calculer la moyenne des latitudes et des longitudes
+mean_latitude <- mean(data$latitude, na.rm = TRUE)
+mean_longitude <- mean(data$longitude, na.rm = TRUE)
+
+# Afficher les coordonnées du barycentre
+cat("Le barycentre des sites olympiques se situe à la latitude:", mean_latitude, "et à la longitude:", mean_longitude, ".\n")
+
+```
+
+Le barycentre des sites olympiques se situe à une latitude d'environ 48.866684 et une longitude d'environ 2.29757. Cela nous permet de déterminer l'emplacement idéal pour notre appartement d'investissement.

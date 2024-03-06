@@ -9,5 +9,79 @@ image: "image.jpg"
 This is a post with executable code.
 
 ```{r}
-1 + 1
+renv::status()
+renv::activate()
+install.packages("quarto")
+
+```
+
+\## Librairie olympicsWeather
+
+Le package \`olympicsWeather\` est une bibliothèque R conçue pour récupérer et analyser les données météorologiques des Jeux olympiques. Il offre une interface conviviale pour accéder à un large éventail de données météorologiques historiques liées aux Jeux olympiques, ce qui en fait un outil précieux pour les chercheurs, les journalistes et les passionnés de sport.
+
+\### Installation
+
+Pour installer le package \`olympicsWeather\` depuis GitHub, vous pouvez utiliser le package \`remotes\`. Voici comment procéder :
+
+```{r}
+# Installer le package remotes s'il n'est pas déjà installé
+
+if (!requireNamespace("remotes", quietly = TRUE)) {
+
+  install.packages("remotes")
+
+}
+
+# Installer le package olympicsWeather depuis GitHub
+
+remotes::install_github("LucasLD56/olympicsWeather")
+```
+
+```{r}
+install.packages("tidygeocoder")
+
+# Installer le package remotes s'il n'est pas déjà installé
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+
+# Installer le package olympicsWeather depuis GitHub
+remotes::install_github("LucasLD56/olympicsWeather", ref = "master")
+
+
+# Prendre un snapshot de l'environnement renv
+renv::snapshot()
+
+# Vérifier que le package olympicsWeather est mentionné dans renv.lock
+renv::status()
+
+```
+
+```{r}
+remotes::install_github()
+```
+
+```{r}
+# Désinstaller le package olympicsWeather
+install.packages("olympicsWeather")
+
+# Réinstaller le package olympicsWeather depuis GitHub
+remotes::install_github("LucasLD56/olympicsWeather", ref = "master")
+library(olympicsWeather)
+```
+
+```{r}
+find.package("olympicsWeather")
+```
+
+```{r}
+remotes::install_github("LucasLD56/olympicsWeather", ref = "master")
+```
+
+```{r}
+install.packages()
+```
+
+```{r}
+renv::snapshot(packages = ("olympicsWeather"))
 ```

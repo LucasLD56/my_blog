@@ -1,0 +1,298 @@
+---
+title: "EX2R"
+author: "Lucas LE DREVO"
+format: html
+editor: visual
+---
+
+## Présentation
+
+```{r}
+library(purrr)
+library(rvest)
+library(stringr)
+
+list_tables <-
+  session("https://fr.wikipedia.org/wiki/Liste_des_m%C3%A9daill%C3%A9s_olympiques") |>
+  html_elements(".wikitable") |>
+  html_table()
+
+
+```
+
+L'objet **`list_tables`** contient les données extraites de toutes les tables HTML ayant la classe "wikitable" sur la page Wikipédia spécifiée. Cela devrait inclure les informations sur les médaillés olympiques.
+
+```{r}
+
+# Sélectionner la première table de list_tables
+data_medailles_sport_ete <- list_tables[[1]]
+
+# Supprimer la première colonne
+data_medailles_sport_ete <- data_medailles_sport_ete[, -1]
+
+# Supprimer les noms de colonnes
+colnames(data_medailles_sport_ete) <- NULL
+
+# Supprimer la première ligne
+data_medailles_sport_ete <- data_medailles_sport_ete[-1, ]
+
+# Renommer les colonnes
+colnames(data_medailles_sport_ete) <- c("Discipline", "Annees", "Editions", "Epreuves_2020", "Or", "Argent", "Bronze", "Total", "Athletes_medailles", "Athletes_or")
+
+# Convertir les colonnes en entiers
+cols_to_convert <- c("Editions", "Epreuves_2020", "Or", "Argent", "Bronze", "Total")
+data_medailles_sport_ete[, cols_to_convert] <- lapply(data_medailles_sport_ete[, cols_to_convert], as.integer)
+
+
+```
+
+L'objet **`data_medailles_sport_ete`** devrait contenir la première table nettoyée et formatée de manière appropriée, avec les colonnes et les données conformes aux spécifications que nous avons fournies.
+
+```{r}
+# Agréger les médailles par discipline
+medailles_par_discipline <- aggregate(cbind(Or, Argent, Bronze, Total) ~ Discipline, data = data_medailles_sport_ete, sum)
+
+# Trier les disciplines par le total de médailles
+medailles_par_discipline <- medailles_par_discipline[order(medailles_par_discipline$Total, decreasing = TRUE), ]
+
+# Sélectionner les trois disciplines avec le plus grand nombre de médailles
+top_3_disciplines <- head(medailles_par_discipline, 3)
+
+# Afficher le résultat
+print(top_3_disciplines[, c("Discipline", "Total")])
+
+
+```
+
+Les trois disciplines avec le plus grand nombre de médailles distribuées depuis le début des Jeux olympiques, avec leur total respectif de médailles sont :
+
+1.  Athlétisme : 3085 médailles
+
+2.  Natation (hommes, femmes) : 1814 médailles
+
+3.  Lutte : 1358 médailles
+
+```{r}
+# Trier les disciplines par le nombre d'épreuves en 2020
+disciplines_moins_epreuves_2020 <- data_medailles_sport_ete[order(data_medailles_sport_ete$Epreuves_2020), ]
+
+# Sélectionner les trois disciplines avec le moins d'épreuves
+top_3_disciplines_moins_epreuves <- head(disciplines_moins_epreuves_2020, 3)
+
+# Afficher le résultat
+print(top_3_disciplines_moins_epreuves[, c("Discipline", "Epreuves_2020")])
+
+
+```
+
+Les trois disciplines avec le moins d'épreuves en 2020, avec leur nombre d'épreuves respectif sont :
+
+1.  Football : 2 épreuves
+
+2.  Golf : 2 épreuves
+
+3.  Handball : 2 épreuves
+
+```{r}
+calcul_nb_editions <- function(depuis, data) {
+  nb_editions <- sum(data$Annees >= depuis)
+  return(nb_editions)
+}
+
+
+# Exemple d'utilisation de la fonction calcul_nb_editions
+annee_debut <- 1900  # Spécifiez ici l'année à partir de laquelle vous souhaitez compter les éditions
+nb_editions <- calcul_nb_editions(annee_debut, data_medailles_sport_ete)
+print(nb_editions)
+
+
+```
+
+Nous avons utilisé la fonction pour compter le nombre d'éditions depuis 1900, et elle a retourné 26, ce qui correspond au nombre total d'apparitions des disciplines aux Jeux olympiques d'été depuis cette année-là.
+
+```{r}
+
+
+
+
+calcul_nb_editions_str <- function(annees_str, data) {
+  # Diviser la chaîne de caractères en une liste d'années ou d'intervalles d'années
+  intervalles <- unlist(strsplit(annees_str, ", "))
+  
+  # Initialiser le compteur d'éditions
+  nb_editions <- 0
+  
+  # Parcourir chaque intervalle ou année
+  for (intervalle in intervalles) {
+    # Vérifier si l'intervalle est une année unique ou une plage d'années
+    if (grepl("depuis", intervalle)) {
+      # Si c'est une plage d'années, obtenir l'année de début
+      depuis <- as.integer(gsub("[^0-9]", "", intervalle))
+      # Ajouter au compteur le nombre d'éditions à partir de cette année jusqu'à la dernière année dans les données
+      nb_editions <- nb_editions + sum(data$Annees >= depuis)
+    } else {
+      # Si c'est une année unique, ajouter simplement une édition si cette année est présente dans les données
+      annee <- as.integer(intervalle)
+      nb_editions <- nb_editions + as.integer(annee %in% data$Annees)
+    }
+  }
+  
+  return(nb_editions)
+}
+
+# Exemple d'utilisation de la fonction calcul_nb_editions_str
+annees_str <- "1896, 1904, depuis 1920"
+nb_editions <- calcul_nb_editions_str(annees_str, data_medailles_sport_ete)
+print(nb_editions)
+
+
+```
+
+Le nombre d'éditions pour les années 1896, 1904, et depuis 1920 est 18.
+
+```{r}
+
+
+calcul_nb_editions <- function(depuis, data) {
+  UseMethod("calcul_nb_editions")
+}
+
+calcul_nb_editions.integer <- function(depuis, data) {
+  nb_editions <- sum(data$Annees >= depuis)
+  return(nb_editions)
+}
+
+calcul_nb_editions.character <- function(annees_str, data) {
+  intervalles <- unlist(strsplit(annees_str, ", "))
+  nb_editions <- 0
+  for (intervalle in intervalles) {
+    if (grepl("depuis", intervalle)) {
+      depuis <- as.integer(gsub("[^0-9]", "", intervalle))
+      nb_editions <- nb_editions + sum(data$Annees >= depuis)
+    } else {
+      annee <- as.integer(intervalle)
+      nb_editions <- nb_editions + as.integer(annee %in% data$Annees)
+    }
+  }
+  return(nb_editions)
+}
+
+# Exemple d'utilisation
+# Appel avec un entier en entrée
+calcul_nb_editions.integer(2000, data_medailles_sport_ete)
+# Appel avec une chaîne de caractères en entrée
+calcul_nb_editions.character("1904–1924, depuis 1948", data_medailles_sport_ete)
+
+
+
+```
+
+Il y a eu 16 éditions à partir de l'année 2000 et 17 entre 1904 et 1924, plus celles à partir de 1948.
+
+```{r}
+
+
+calcul_medailles_individuelles <- function(data) {
+  # Sélectionner la colonne des athlètes et les médailles obtenues
+  athletes_medals <- data$Athletes_medailles
+  
+  # Séparer les éléments de la colonne en utilisant le motif '(', ')' pour extraire le nombre de médailles
+  medals <- unlist(strsplit(athletes_medals, "\\("))
+  
+  # Nettoyer les caractères non numériques et conserver uniquement les chiffres
+  cleaned_medals <- gsub("[^0-9]", "", medals)
+  
+  # Supprimer les éléments vides résultant du nettoyage
+  cleaned_medals <- cleaned_medals[cleaned_medals != ""]
+  
+  # Convertir en entiers et extraire le nombre maximal de médailles parmi tous les athlètes
+  max_medals <- max(as.integer(cleaned_medals), na.rm = TRUE)
+  
+  return(max_medals)
+}
+
+# Exemple d'utilisation
+max_medals <- calcul_medailles_individuelles(data_medailles_sport_ete)
+print(max_medals)
+
+
+
+```
+
+Le nombre maximal de médailles individuelles obtenues est de 2332.
+
+```{r}
+
+
+# Définir la fonction pour extraire le nombre total de médailles
+extraire_nombre_medailles <- function(athletes_medals) {
+  # Extraire le nom de l'athlète
+  athlete_name <- sub("\\s*\\(.*\\)", "", athletes_medals) 
+  
+  # Extraire le nombre de médailles d'or, d'argent et de bronze
+  medals <- as.numeric(unlist(str_extract_all(athletes_medals, "\\d+")))
+  
+  list(Athlete = athlete_name, Or = medals[1], Argent = medals[2], Bronze = medals[3])
+}
+
+# Appliquer la fonction à chaque élément de la colonne Athletes_medailles
+medailles_par_athlete <- lapply(data_medailles_sport_ete$Athletes_medailles, extraire_nombre_medailles)
+
+# Créer un data frame avec les noms des athlètes et leur nombre total de médailles
+athletes_df <- data.frame(do.call(rbind, medailles_par_athlete), stringsAsFactors = FALSE)
+
+# Convertir les colonnes Or, Argent et Bronze en numérique
+athletes_df$Or <- as.numeric(athletes_df$Or)
+athletes_df$Argent <- as.numeric(athletes_df$Argent)
+athletes_df$Bronze <- as.numeric(athletes_df$Bronze)
+
+# Calculer le nombre total de médailles
+athletes_df$Total_Medals <- rowSums(athletes_df[, c("Or", "Argent", "Bronze")])
+
+# Trier le data frame par nombre total de médailles pour obtenir le top 3
+top_3_athletes <- head(athletes_df[order(-athletes_df$Total_Medals), ], 3)
+
+# Afficher le top 3 des athlètes
+print(top_3_athletes)
+
+```
+
+Voici le top 3 des athlètes basé sur le nombre total de médailles :
+
+1.  Michael Phelps avec un total de 28 médailles (23 en or, 3 en argent et 2 en bronze).
+
+2.  Larissa Latynina avec un total de 18 médailles (9 en or, 5 en argent et 4 en bronze).
+
+3.  Edoardo Mangiarotti avec un total de 13 médailles (6 en or, 5 en argent et 2 en bronze).
+
+```{r}
+
+
+
+# Définir la fonction pour extraire les nationalités des athlètes
+extraire_nationalite_athlete <- function(athletes_medals) {
+  # Extraire les nationalités des athlètes à partir de la chaîne de caractères
+  nationalites <- gsub(".*\\((\\w+)\\).*", "\\1", athletes_medals)
+  
+  # Compter le nombre d'athlètes pour chaque nationalité
+  nationalites_count <- table(nationalites)
+  
+  return(nationalites_count)
+}
+
+# Appliquer la fonction à toute la colonne Athletes_medailles
+nationalites_par_athlete <- lapply(data_medailles_sport_ete$Athletes_medailles, extraire_nationalite_athlete)
+
+# Agréger les résultats pour compter le nombre total d'athlètes pour chaque nationalité
+total_nationalites <- do.call(rbind, nationalites_par_athlete)
+total_nationalites <- colSums(total_nationalites)
+
+# Trier les résultats pour obtenir les trois nationalités les plus représentées
+top_3_nationalites <- head(sort(total_nationalites, decreasing = TRUE), 3)
+
+# Afficher les trois nationalités les plus représentées et leur effectif
+print(top_3_nationalites)
+
+```
+
+"FIN" (Finlande) est la seule nationalité présente dans les données avec un total de 30 athlètes.

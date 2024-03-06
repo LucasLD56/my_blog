@@ -1,0 +1,383 @@
+---
+title: "EX3R"
+author: "Lucas LE DREVO"
+format: html
+editor: visual
+---
+
+## Présentation
+
+```{r}
+library(stringr)
+library(lubridate)
+library(arrow)
+library(dplyr)
+library(tidyr)
+library(jsonlite)
+library(RSQLite)
+
+
+
+
+library(arrow)
+
+# Lire le fichier .parquet
+table <- arrow::read_parquet("C:/Users/lucas/OneDrive/Documents/RGH/tokyo_athletes.parquet")
+
+# Dimensions de la table
+dimensions_table <- dim(table)
+
+# Colonnes présentes
+colonnes <- colnames(table)
+
+cat("Dimensions de la table :", dimensions_table[1], " lignes,", dimensions_table[2], "colonnes\n")
+cat("Colonnes présentes :", paste(colonnes, collapse = ", "))
+
+
+```
+
+La table lue à partir du fichier .parquet a les caractéristiques suivantes :
+
+-   Dimensions de la table : 11085 lignes, 3 colonnes.
+
+-   Colonnes présentes : "Name", "NOC", "Discipline".
+
+Cela signifie que la table contient 11085 entrées, chaque entrée ayant trois attributs (colonnes) : "Name" (nom), "NOC" (code du Comité National Olympique), et "Discipline" (discipline sportive).
+
+```{r}
+
+library(jsonlite)
+data <- fromJSON("C:/Users/lucas/OneDrive/Documents/RGH/olympics_athletes.json")
+
+
+# Dimensions de la table
+dimensions_table <- dim(data)
+
+# Colonnes présentes
+colonnes <- names(data)
+
+cat("Dimensions de la table :", dimensions_table[1], "lignes,", dimensions_table[2], "colonnes\n")
+cat("Colonnes présentes :", paste(colonnes, collapse = ", "))
+
+
+```
+
+La table lue à partir du fichier .json a les caractéristiques suivantes :
+
+-   Dimensions de la table : 269731 lignes, 13 colonnes.
+
+-   Colonnes présentes : "ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Games", "City", "Sport", "Event", "Medal".
+
+Cela signifie que la table contient 269731 entrées, chaque entrée ayant treize attributs (colonnes) avec des informations sur les athlètes olympiques, y compris des détails tels que le nom, le sexe, l'âge, la taille, le poids, l'équipe, le pays, les jeux olympiques, la ville, le sport, l'événement et la médaille.
+
+```{r}
+# Importer la librairie RSQLite
+library(RSQLite)
+
+# Ouvrir une connexion à la base de données SQLite
+# Utilisez des barres obliques inversées doubles ou des barres obliques avant pour le chemin
+connexion <- dbConnect(SQLite(), "C:/Users/lucas/OneDrive/Documents/RGH/data.sqlite")
+
+# Obtenir la liste des tables présentes dans la base de données
+tables <- dbListTables(connexion)
+
+# Afficher les tables présentes
+cat("Tables présentes dans la base de données :", paste(tables, collapse = ", "))
+
+
+```
+
+```{r}
+library(RSQLite)
+
+# Ouvrir une connexion à la base de données SQLite
+connexion <- dbConnect(SQLite(), "C:/Users/lucas/OneDrive/Documents/RGH/data.sqlite")
+
+# Créer la table olympics_athletes à partir du fichier JSON
+data_json <- fromJSON("C:/Users/lucas/OneDrive/Documents/RGH/olympics_athletes.json")
+dbWriteTable(connexion, "olympics_athletes", data_json, overwrite = TRUE)
+
+# Créer la table tokyo_athletes à partir du fichier Parquet
+library(arrow)
+data_parquet <- arrow::read_parquet("C:/Users/lucas/OneDrive/Documents/RGH/tokyo_athletes.parquet")
+dbWriteTable(connexion, "tokyo_athletes", data_parquet, overwrite = TRUE)
+
+
+
+```
+
+```{r}
+
+
+# Sélectionner quelques lignes de la table olympics_athletes
+requete_olympics <- "SELECT * FROM olympics_athletes LIMIT 5"
+resultats_olympics <- dbGetQuery(connexion, requete_olympics)
+
+# Sélectionner quelques lignes de la table tokyo_athletes
+requete_tokyo <- "SELECT * FROM tokyo_athletes LIMIT 5"
+resultats_tokyo <- dbGetQuery(connexion, requete_tokyo)
+
+# Afficher les résultats
+print("Quelques lignes de la table olympics_athletes :")
+print(resultats_olympics)
+
+print("Quelques lignes de la table tokyo_athletes :")
+print(resultats_tokyo)
+
+
+```
+
+Créer des nouvelles tables et extraire quelques lignes de chaque table pour vérification
+
+```{r}
+
+
+
+
+# Inspecter les colonnes de la table olympics_athletes
+colonnes_olympics <- dbListFields(connexion, "olympics_athletes")
+
+# Afficher les colonnes
+cat("Colonnes de la table olympics_athletes :", paste(colonnes_olympics, collapse = ", "))
+
+```
+
+Les colonnes de la table "olympics_athletes" sont les suivantes :
+
+1.  ID
+
+2.  Name
+
+3.  Sex
+
+4.  Age
+
+5.  Height
+
+6.  Weight
+
+7.  Team
+
+8.  NOC
+
+9.  Games
+
+10. City
+
+11. Sport
+
+12. Event
+
+13. Medal
+
+```{r}
+
+# Importer la librairie RSQLite
+library(RSQLite)
+library(tibble)
+
+
+
+# Charger la table olympics_athletes depuis la base de données
+table_olympics <- dbReadTable(connexion, "olympics_athletes")
+
+# Convertir la table en tibble
+table_olympics_tibble <- as_tibble(table_olympics)
+
+# Afficher les premières lignes du tibble
+print(table_olympics_tibble)
+
+```
+
+```{r}
+# Importer les librairies nécessaires
+library(dplyr)
+
+# Convertir la colonne Sex en variable catégorielle
+table_olympics_tibble <- table_olympics_tibble %>%
+  mutate(Sex = as.factor(Sex))
+
+
+```
+
+```{r}
+# Importer les librairies nécessaires
+library(dplyr)
+library(tidyr)
+
+# Créer les nouvelles colonnes à partir de la colonne Games
+table_olympics_tibble <- table_olympics_tibble %>%
+  separate("Games", into = c("Year", "Season"), sep = " ", convert = TRUE) %>%
+  mutate(isSummer = Season == "Summer")
+
+# Convertir la colonne Year en type integer
+table_olympics_tibble$Year <- as.integer(table_olympics_tibble$Year)
+
+```
+
+```{r}
+# Importer les librairies nécessaires
+library(dplyr)
+library(tidyr)
+
+# Supposons que votre tibble s'appelle table_olympics_tibble
+
+resultats_age_editions <- table_olympics_tibble %>%
+  group_by(Year) %>%
+  summarise(mean_age = mean(Age, na.rm = TRUE),
+            youngest_athlete = min(Age, na.rm = TRUE),
+            oldest_athlete = max(Age, na.rm = TRUE)) %>%
+  arrange(mean_age)
+
+# Afficher les résultats
+print(resultats_age_editions)
+
+```
+
+-   La tibble résultante contient les colonnes Year, mean_age (moyenne d'âge), youngest_athlete (âge du plus jeune athlète), et oldest_athlete (âge du plus vieux athlète).
+
+-   Les résultats sont triés par ordre croissant de la moyenne d'âge.
+
+```{r}
+
+library(dplyr)
+library(tidyr)
+
+# Supposons que votre tibble s'appelle table_olympics_tibble
+
+resultats_taille_max_femmes <- table_olympics_tibble %>%
+  filter(Sex == "F") %>%
+  group_by(Year, Sport) %>%
+  summarise(max_height = max(Height, na.rm = TRUE)) %>%
+  ungroup() %>%
+  group_by(Sport) %>%
+  summarise(total_max_height = sum(!is.na(max_height)),
+            years_max_height = list(Year[max_height == max(max_height, na.rm = TRUE)]))
+
+# Trouver la discipline avec la taille maximale des athlètes féminines
+discipline_max_height <- resultats_taille_max_femmes %>%
+  filter(total_max_height == max(total_max_height, na.rm = TRUE))
+
+# Afficher la discipline
+print("Discipline des JO d’été avec la taille maximale des athlètes féminines :")
+print(discipline_max_height$Sport)
+
+# Afficher le nombre de fois où chaque discipline a été la discipline avec les plus grandes athlètes
+print("Nombre de fois où chaque discipline a été la discipline avec les plus grandes athlètes :")
+print(resultats_taille_max_femmes)
+
+
+
+
+```
+
+La discipline des JO d'été dont la taille des athlètes féminines est la plus grande est "Diving" (plongeon), suivie de "Figure Skating" (patinage artistique) et "Swimming" (natation).
+
+```{r}
+
+library(stringr)
+
+# Texte donné
+texte <- "Les jeux olympiques d’été se déroulent normalement tous les 4 ans, durant les mois
+de Juillet et Août. Les jeux de Rio ont eu lieu du 5 Août 2016 au 20 Août 2016,
+ceux de Tokyo du 23 Juillet 2021 au 8 Août 2021, et ceux de Paris auront lieu du
+26 Juillet 2024 au 11 Août 2024. Plus de 10000 athlètes sont attendus du monde
+entier à Paris."
+
+# Expression régulière pour capturer une date au format "jour Mois année"
+regex_date <- "\\b\\d{1,2} [[:alpha:]]+ \\d{4}\\b"
+
+# Utiliser str_extract_all pour extraire toutes les occurrences de dates
+dates_extracted <- str_extract_all(texte, regex_date)[[1]]
+
+# Afficher les dates extraites
+print(dates_extracted)
+
+
+```
+
+Les dates extraites du texte sont les suivantes :
+
+-   "5 Août 2016"
+
+-   "20 Août 2016"
+
+-   "23 Juillet 2021"
+
+-   "8 Août 2021"
+
+-   "26 Juillet 2024"
+
+-   "11 Août 2024"
+
+```{r}
+library(stringr)
+
+# Texte donné
+texte <- "Les jeux olympiques d’été se déroulent normalement tous les 4 ans, durant les mois
+de Juillet et Août. Les jeux de Rio ont eu lieu du 5 Août 2016 au 20 Août 2016,
+ceux de Tokyo du 23 Juillet 2021 au 8 Août 2021, et ceux de Paris auront lieu du
+26 Juillet 2024 au 11 Août 2024. Plus de 10000 athlètes sont attendus du monde
+entier à Paris."
+
+# Expression régulière pour capturer une date au format "jour Mois année"
+regex_date <- "\\b\\d{1,2} [[:alpha:]]+ \\d{4}\\b"
+
+# Utiliser str_extract_all pour extraire toutes les occurrences de dates
+dates_extracted <- str_extract_all(texte, regex_date)[[1]]
+
+# Remplacer les noms des mois par leur numéro
+mois_numeros <- c("Janvier" = "01", "Février" = "02", "Mars" = "03", "Avril" = "04",
+                  "Mai" = "05", "Juin" = "06", "Juillet" = "07", "Août" = "08",
+                  "Septembre" = "09", "Octobre" = "10", "Novembre" = "11", "Décembre" = "12")
+
+for (mois in names(mois_numeros)) {
+  texte <- str_replace_all(texte, mois, mois_numeros[mois])
+}
+
+# Afficher le texte modifié
+print(texte)
+```
+
+```{r}
+
+
+
+library(lubridate)
+
+# Dates extraites
+dates_extracted <- c("5 Août 2016", "20 Août 2016", "23 Juillet 2021", "8 Août 2021", "26 Juillet 2024", "11 Août 2024")
+
+# Convertir les dates en utilisant lubridate
+dates_converties <- dmy(dates_extracted)
+
+# Afficher les dates converties
+print(dates_converties)
+
+```
+
+```{r}
+
+
+# Dates des éditions
+date_rio <- dmy("5 Août 2016")
+date_tokyo <- dmy("23 Juillet 2021")
+date_paris <- dmy("26 Juillet 2024")
+
+# Calcul du nombre de jours
+jours_rio_tokyo <- as.numeric(difftime(date_tokyo, date_rio, units = "days"))
+jours_tokyo_paris <- as.numeric(difftime(date_paris, date_tokyo, units = "days"))
+
+# Calcul du nombre de semaines
+semaines_rio_tokyo <- as.numeric(difftime(date_tokyo, date_rio, units = "weeks"))
+semaines_tokyo_paris <- as.numeric(difftime(date_paris, date_tokyo, units = "weeks"))
+
+# Affichage des résultats
+cat("Nombre de jours entre Rio et Tokyo:", jours_rio_tokyo, "jours\n")
+cat("Nombre de jours entre Tokyo et Paris:", jours_tokyo_paris, "jours\n")
+
+cat("Nombre de semaines entre Rio et Tokyo:", semaines_rio_tokyo, "semaines\n")
+cat("Nombre de semaines entre Tokyo et Paris:", semaines_tokyo_paris, "semaines\n")
+
+
+```
